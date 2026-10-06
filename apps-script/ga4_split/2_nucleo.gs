@@ -109,23 +109,22 @@ function consulta_(b, aba, p, dims, metrics, dateRanges, filtroExtra, derivar, o
   return { aba: aba, periodo: p.nome, fim: p.fim, dims: dims, metrics: metrics, derivar: !!derivar, req: req, metricasFallback: metricasFallback || null };
 }
 
-/** Combina um filtro extra com a exclusão de tráfego inválido: NOT(AND(condições)). */
+/** Combina um filtro extra com a exclusão de tráfego inválido: NOT(OR(AND(assinatura 1), AND(assinatura 2), ...)). */
 function montarFiltro_(b, extra) {
   const f = b.filtroInvalido;
   let exclusao = null;
-  if (f && f.ativo && f.condicoes && f.condicoes.length) {
-    exclusao = {
-      notExpression: {
-        andGroup: {
-          expressions: f.condicoes.map(c => ({
-            filter: {
-              fieldName: c.campo,
-              stringFilter: { matchType: c.tipo, value: c.valor, caseSensitive: false }
-            }
-          }))
-        }
+  if (f && f.ativo && f.assinaturas && f.assinaturas.length) {
+    const grupos = f.assinaturas.map(conds => ({
+      andGroup: {
+        expressions: conds.map(c => ({
+          filter: {
+            fieldName: c.campo,
+            stringFilter: { matchType: c.tipo, value: c.valor, caseSensitive: false }
+          }
+        }))
       }
-    };
+    }));
+    exclusao = { notExpression: grupos.length === 1 ? grupos[0] : { orGroup: { expressions: grupos } } };
   }
   if (extra && exclusao) return { andGroup: { expressions: [extra, exclusao] } };
   return extra || exclusao || null;

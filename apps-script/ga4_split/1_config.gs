@@ -19,17 +19,41 @@
 // ============================== CONFIGURAÇÃO ==============================
 
 /**
- * Assinatura de tráfego inválido (Oscar web): desktop + direto/não definido + versão do navegador + resolução.
- * Julho: 142.0.0.0 e 133.0.6943.141. Setembro (GA_Assinatura): somam-se 146.0.0.0 e 151.0.7922.173, todas com zero transações.
- * Confirmar as versões de ago 17-29 e out 03-05 com descobrirAssinatura() antes de fechar a análise.
+ * Tráfego inválido (Oscar web): lista de assinaturas, cada uma com todas as condições (AND).
+ * O filtro exclui o que casar com QUALQUER assinatura: NOT(OR(AND(...), AND(...))).
+ * Fonte: aba GA_Assinatura (todas com zero transações). Revisar a cada nova onda de bots.
  */
+const ORIGEM_INVALIDA = '^(\\(direct\\) / \\(none\\)|\\(not set\\))$';
 const FILTRO_INVALIDO_OSCAR_WEB = {
   ativo: true,
-  condicoes: [
-    { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
-    { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: '^(\\(direct\\) / \\(none\\)|\\(not set\\))$' },
-    { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^(142\\.0\\.0\\.0|146\\.0\\.0\\.0|133\\.0\\.6943\\.141|151\\.0\\.7922\\.173)$' },
-    { campo: 'screenResolution',    tipo: 'FULL_REGEXP', valor: '^(1600x1600|1920x1080)$' }
+  assinaturas: [
+    // Windows 1920x1080: jul (142), ago 17-29 (144.0.7559.132), set (151.0.7922.173)
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^(142\\.0\\.0\\.0|144\\.0\\.7559\\.132|151\\.0\\.7922\\.173)$' },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1920x1080' }
+    ],
+    // 1600x1600 (jul a ago)
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^133\\.0\\.6943\\.141$' },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1600x1600' }
+    ],
+    // Linux 1920x1080, versão 146.0.0.0 (ago, set e out)
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^146\\.0\\.0\\.0$' },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1920x1080' }
+    ],
+    // Out 03-05: resolução 1280x1200 com versões 103 a 133 variadas
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1280x1200' }
+    ]
   ]
 };
 
