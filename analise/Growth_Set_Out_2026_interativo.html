@@ -70,6 +70,18 @@ svg:hover .bar{opacity:.6} svg .bar:hover{opacity:1}
 .cro .ic svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cro b{display:block;font-size:17px;font-weight:800;color:var(--ink);line-height:1.3}
 .cro li div span{display:block;font-size:14.5px;font-weight:500;color:var(--ink2);line-height:1.4;margin-top:2px}
+.pri{display:grid;grid-template-columns:470px 1fr;gap:22px;margin-top:14px;height:calc(100% - 96px)}
+.pri .mx{background:var(--soft);border-radius:16px;padding:12px 14px;min-width:0}
+.pri .lst{display:flex;flex-direction:column;gap:6px;min-width:0}
+.pri .hd,.pri .rw{display:grid;grid-template-columns:28px 76px 1fr 140px 56px;gap:10px;align-items:center}
+.pri .hd{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 10px}
+.pri .rw{background:var(--soft);border-radius:12px;padding:5px 10px;min-height:46px}
+.pri .rw b{font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.25;display:block}
+.pri .rw span.d{font-size:12px;color:var(--ink2);font-weight:500;line-height:1.3;display:block}
+.pri .n{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.pri .bd{font-size:12px;font-weight:700;color:var(--ink2)}
+.pri .w{font-size:11.5px;font-weight:800;border-radius:99px;padding:3px 9px;text-align:center;color:#fff}
+.pri .foot{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12.5px;font-weight:700;background:var(--stage);color:var(--ink2);border:1px solid var(--line)}
 /* capa */
 .cover{background:var(--brand);color:#fff;padding:0}
@@ -321,6 +333,34 @@ function resumoSlide(s,name,mes,item,month,withLev){
   const ul=H('ul','','',cro);ul.style.gridTemplateColumns=`repeat(${list.length>=3&&list.length!==4?3:Math.min(2,list.length)||1},1fr)`;
   list.forEach(l=>{const li=H('li','',`<div class="ic"><svg viewBox="0 0 24 24">${IC[l[0]]||IC.target}</svg></div><div><b>${l[1]}</b><span>${l[2]}</span></div>`,ul)});
 }
+
+const PRI=[
+ [1,'Oscar web','Validar o checkout pós-deploy','Deploy de 30/09 a 01/10 e mudança de coleta','Protege a maior receita do Grupo','Baixo',1,1.3,4.4],
+ [2,'Oscar web','Retomar google / cpc e Meta Ads','Google / cpc: -R$ 12,9 mil em 01-05/10','Cerca de R$ 13 mil em 5 dias','Baixo',1,1.9,3.6],
+ [3,'App','Corrigir a compra duplicada','Libera CVR e TKM confiáveis desde 25/09','Habilita a medição','Baixo',1,1.2,3.2],
+ [4,'App','Sessão → produto no iOS','Google / cpc x iOS: -R$ 24 mil em setembro','Até R$ 24 mil/mês','Médio',2,3.1,4.0],
+ [5,'Esportes','Checkout do desktop','Pagamento → compra -12,6 p.p.','Cerca de R$ 19 mil/mês','Médio',2,2.9,3.1],
+ [6,'Oscar web','Produto e carrinho no mobile','CVR de agosto no mobile: 0,77%','Cerca de R$ 130 mil/mês','Alto',3,4.2,4.8],
+ [7,'App','Retomar o push','678 sessões contra 1.179 (-42%)','Receita estável até aqui','Baixo',3,1.5,2.2],
+ [8,'Calçados','Carrinho e ticket do desktop','Carrinho → checkout -5,8 p.p.','Cerca de R$ 7 mil/mês','Médio',3,3.1,1.9]];
+function priSlide(s){
+  s.innerHTML=`${eyebrow('Grupo','Todas as bandeiras')}<h1>Iniciativas de CRO priorizadas por esforço e ganho</h1><div class="pri"><div class="mx"></div><div class="lst"></div></div>`;
+  const col={1:'var(--brand)',2:'var(--c-all)',3:'var(--muted)'};
+  const W=472,Hh=440,m={l:34,r:10,t:10,b:36},gw=W-m.l-m.r,gh=Hh-m.t-m.b;
+  const svg=S('svg',{viewBox:`0 0 ${W} ${Hh}`,style:'width:100%;height:auto;display:block'},$('.mx',s));
+  const X=v=>m.l+(v-.5)/5*gw,Y=v=>m.t+gh-(v-.5)/5*gh;
+  S('rect',{x:m.l,y:m.t,width:gw/2,height:gh/2,fill:'var(--cro-bg)',rx:8},svg);
+  S('line',{class:'grid',x1:X(3),x2:X(3),y1:m.t,y2:m.t+gh},svg);S('line',{class:'grid',x1:m.l,x2:m.l+gw,y1:Y(3),y2:Y(3)},svg);
+  S('rect',{x:m.l,y:m.t,width:gw,height:gh,fill:'none',stroke:'var(--line)',rx:8},svg);
+  [['Fazer já',m.l+8,m.t+16,'start'],['Projetos estratégicos',m.l+gw-8,m.t+16,'end'],['Ajustes de apoio',m.l+8,m.t+gh-8,'start'],['Avaliar depois',m.l+gw-8,m.t+gh-8,'end']].forEach(q=>S('text',{x:q[1],y:q[2],'text-anchor':q[3],'font-size':11.5,'font-weight':700,class:'t-mut'},svg,q[0]));
+  S('text',{x:m.l+gw/2,y:Hh-8,'text-anchor':'middle','font-size':12,'font-weight':700,class:'t-ink'},svg,'Esforço (menor → maior)');
+  const yl=S('text',{x:12,y:m.t+gh/2,'text-anchor':'middle','font-size':12,'font-weight':700,class:'t-ink',transform:`rotate(-90 12 ${m.t+gh/2})`},svg,'Potencial de ganho (menor → maior)');
+  PRI.forEach(r=>{const g=S('g',{},svg);S('circle',{cx:X(r[7]),cy:Y(r[8]),r:14,fill:col[r[6]],stroke:'var(--stage)','stroke-width':2},g);
+    S('text',{x:X(r[7]),y:Y(r[8])+4.5,'text-anchor':'middle','font-size':13,'font-weight':800,fill:'#fff',style:'fill:#fff'},g,String(r[0]))});
+  const lst=$('.lst',s);H('div','hd','<span></span><span>Bandeira</span><span>Iniciativa</span><span>Ganho potencial</span><span>Esforço</span>',lst);
+  PRI.forEach(r=>{const w=H('div','rw',`<span class="n" style="background:${col[r[6]]}">${r[0]}</span><span class="bd">${r[1]}</span><div><b>${r[2]}</b><span class="d">${r[3]}</span></div><span class="bd">${r[4]}</span><span class="bd">${r[5]}</span>`,lst)});
+  H('div','foot','<i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--brand);margin-right:5px"></i>Onda 1, até 2 semanas &nbsp; <i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c-all);margin:0 5px 0 8px"></i>Onda 2, até 6 semanas &nbsp; <i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--muted);margin:0 5px 0 8px"></i>Onda 3, com teste A/B. Esforço é estimativa do Growth, a validar com Tec4U e Deco; ganhos são condicionais e não se somam.',lst);
+}
 function build(){
   const g=DATA.grupo;
   add('Grupo','Capa',s=>{s.className='slide cover';s.innerHTML=`<div class="in"><h2>Setembro e tendência de outubro por bandeira</h2><p>Gap da meta, origens, funil e onde o CRO deve atuar</p></div><div class="k">GROWTH | CRO · OUTUBRO DE 2026</div><div class="bars"><span style="height:150px"></span><span style="height:230px"></span><span class="hi" style="height:330px"></span><span style="height:270px"></span><span style="height:410px"></span></div>`});
@@ -355,6 +395,7 @@ function build(){
     }
     add(sec,b.short+' · Out: resumo',s=>resumoSlide(s,b.short,'01 a 05/10',b,'out',false));
   });
+  add('Grupo','Iniciativas priorizadas',priSlide);
 }
 /* navegação */
 const stage=$('#stage'),menu=$('#menu');let cur=0;const dom=[];
