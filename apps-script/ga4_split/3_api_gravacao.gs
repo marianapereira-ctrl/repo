@@ -58,7 +58,7 @@ function converterLinhas_(b, c) {
   const rows = c.resp.rows || [];
   const hdr = (c.resp.metricHeaders || []).map(h => h.name);
   return rows.map(r => {
-    const dimVals = r.dimensionValues.map((d, i) => formatarDim_(c.dims[i], d.value));
+    const dimVals = (r.dimensionValues || []).map((d, i) => formatarDim_(c.dims[i], d.value));
     const mapa = {};
     hdr.forEach((n, i) => { mapa[n] = Number(r.metricValues[i].value); });
     const mets = c.metrics.map(m => (m in mapa ? mapa[m] : ''));
