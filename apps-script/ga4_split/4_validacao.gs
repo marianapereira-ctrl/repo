@@ -20,11 +20,21 @@ function validarDimensoes() {
 }
 
 /**
- * Lista as combinações browserVersion x screenResolution do tráfego desktop + (direct) / (none) da Oscar web,
- * em julho e setembro, para confirmar se a assinatura de setembro é a mesma. Grava em GA_Assinatura.
+ * Lista as combinações browserVersion x screenResolution x sistema x país do tráfego desktop com origem
+ * (direct) / (none) ou (not set), em cada período, para fechar a assinatura de tráfego inválido.
+ * Grava em GA_Assinatura (substitui só as linhas da bandeira). Use o atalho da bandeira desejada.
  */
-function descobrirAssinatura() {
-  const b = BANDEIRAS[0];
+function descobrirAssinatura() { descobrirAssinatura_('Oscar Calçados (web)', PERIODOS_ASSINATURA); }
+function descobrirAssinaturaEsportes() {
+  descobrirAssinatura_('Paquetá Esportes (web)', [
+    { nome: 'Ago/26 (01-30)', ini: '2026-08-01', fim: '2026-08-30' },
+    { nome: 'Set/26 (01-30)', ini: '2026-09-01', fim: '2026-09-30' },
+    { nome: 'Out/26 (01-05)', ini: '2026-10-01', fim: '2026-10-05' }
+  ]);
+}
+
+function descobrirAssinatura_(nomeBandeira, periodos) {
+  const b = BANDEIRAS.find(x => x.nome === nomeBandeira);
   const prop = 'properties/' + b.propertyId;
   const dims = ['browserVersion', 'screenResolution', 'operatingSystem', 'country', 'sessionSourceMedium'];
   const filtro = { andGroup: { expressions: [
@@ -33,7 +43,7 @@ function descobrirAssinatura() {
   ] } };
   const cab = ['Bandeira', 'Periodo', 'Versao navegador', 'Resolucao', 'Sistema', 'Pais', 'Origem/Midia', 'Sessoes', 'Transacoes', 'Receita'];
   const linhas = [];
-  PERIODOS_ASSINATURA.forEach(p => {
+  periodos.forEach(p => {
     const resp = comRetry_(() => AnalyticsData.Properties.runReport({
       dateRanges: [{ startDate: p.ini, endDate: p.fim }],
       dimensions: dims.map(d => ({ name: d })),
@@ -45,13 +55,5 @@ function descobrirAssinatura() {
     (resp.rows || []).forEach(r => linhas.push([b.nome, p.nome]
       .concat(r.dimensionValues.map(d => d.value), r.metricValues.map(m => Number(m.value)))));
   });
-  const ss = SpreadsheetApp.getActive();
-  const sh = ss.getSheetByName('GA_Assinatura') || ss.insertSheet('GA_Assinatura');
-  sh.clear();
-  sh.getRange(1, 1, 1, cab.length).setValues([cab]).setFontWeight('bold');
-  if (linhas.length) {
-    sh.getRange(2, 1, linhas.length, 7).setNumberFormat('@');
-    sh.getRange(2, 1, linhas.length, cab.length).setValues(linhas);
-  }
-  sh.setFrozenRows(1);
+  substituirLinhas_('GA_Assinatura', cab, b.nome, linhas, 7);
 }
