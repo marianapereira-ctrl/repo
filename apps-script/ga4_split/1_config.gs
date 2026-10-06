@@ -24,6 +24,19 @@
  * Fonte: aba GA_Assinatura (todas com zero transações). Revisar a cada nova onda de bots.
  */
 const ORIGEM_INVALIDA = '^(\\(direct\\) / \\(none\\)|\\(not set\\))$';
+/** Assinaturas compartilhadas entre bandeiras (todas com zero transações em GA_Assinatura). */
+const SIG_133_1600 = [
+  { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+  { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+  { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^133\\.0\\.6943\\.141$' },
+  { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1600x1600' }
+];
+// Chrome 113 a 115 (Mac e Windows, EUA) em direto/não definido: ondas de set e out
+const SIG_CHROME_113_115 = [
+  { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+  { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+  { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^11[345]\\..*$' }
+];
 const FILTRO_INVALIDO_OSCAR_WEB = {
   ativo: true,
   assinaturas: [
@@ -34,13 +47,7 @@ const FILTRO_INVALIDO_OSCAR_WEB = {
       { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^(142\\.0\\.0\\.0|144\\.0\\.7559\\.132|151\\.0\\.7922\\.173)$' },
       { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1920x1080' }
     ],
-    // 1600x1600 (jul a ago)
-    [
-      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
-      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
-      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^133\\.0\\.6943\\.141$' },
-      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1600x1600' }
-    ],
+    SIG_133_1600,
     // Linux 1920x1080, versão 146.0.0.0 (ago, set e out)
     [
       { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
@@ -53,9 +60,13 @@ const FILTRO_INVALIDO_OSCAR_WEB = {
       { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
       { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
       { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1280x1200' }
-    ]
+    ],
+    SIG_CHROME_113_115
   ]
 };
+
+/** Esportes: 133.0.6943.141 em 1600x1600 (Japão) explica cerca de 89% do tráfego inválido; o resto é Chrome 113 a 115. */
+const FILTRO_INVALIDO_ESPORTES = { ativo: true, assinaturas: [SIG_133_1600, SIG_CHROME_113_115] };
 
 /**
  * dimDevice: 'deviceCategory' (web) ou 'platform' (app).
@@ -65,7 +76,7 @@ const FILTRO_INVALIDO_OSCAR_WEB = {
 const BANDEIRAS = [
   { nome: 'Oscar Calçados (web)',  propertyId: '260706521', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: FILTRO_INVALIDO_OSCAR_WEB, avisoCompraDuplicada: false, funcao: 'rodarOscarWeb' },
   { nome: 'Oscar Calçados (app)',  propertyId: '316510550', dimDevice: 'platform',       ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: true,  funcao: 'rodarOscarApp' },
-  { nome: 'Paquetá Esportes (web)', propertyId: '412955216', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: false, funcao: 'rodarPaquetaEsportes' },
+  { nome: 'Paquetá Esportes (web)', propertyId: '412955216', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: FILTRO_INVALIDO_ESPORTES,                      avisoCompraDuplicada: false, funcao: 'rodarPaquetaEsportes' },
   { nome: 'Paquetá Calçados (web)', propertyId: '321575998', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: false, funcao: 'rodarPaquetaCalcados' },
   { nome: 'Diadora (web)',          propertyId: '321250920', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: false, funcao: 'rodarDiadora' }
 ];
