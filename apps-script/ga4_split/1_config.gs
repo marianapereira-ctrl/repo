@@ -78,16 +78,16 @@ const BANDEIRAS = [
   { nome: 'Oscar Calçados (app)',  propertyId: '316510550', dimDevice: 'platform',       ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: true,  funcao: 'rodarOscarApp' },
   { nome: 'Paquetá Esportes (web)', propertyId: '412955216', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: FILTRO_INVALIDO_ESPORTES,                      avisoCompraDuplicada: false, funcao: 'rodarPaquetaEsportes' },
   { nome: 'Paquetá Calçados (web)', propertyId: '321575998', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: false, funcao: 'rodarPaquetaCalcados' },
-  { nome: 'Diadora (web)',          propertyId: '321250920', dimDevice: 'deviceCategory', ativo: true, filtroInvalido: null,                      avisoCompraDuplicada: false, funcao: 'rodarDiadora' }
+  { nome: 'Diadora (web)',          propertyId: '321250920', dimDevice: 'deviceCategory', ativo: false, filtroInvalido: null,                      avisoCompraDuplicada: false, funcao: 'rodarDiadora' }
 ];
 
-/** Períodos (YYYY-MM-DD). Referências de outubro alinhadas por dia da semana (qui a seg). */
+/** Períodos (YYYY-MM-DD). Outubro 01 a 04 (qui a dom) e referências alinhadas por dia da semana (03 a 06/09 e 24 a 27/09). */
 const PERIODOS = [
   { nome: 'Set/26 (01-30)',              ini: '2026-09-01', fim: '2026-09-30', ativo: true },
   { nome: 'Ago/26 (01-30) ref',          ini: '2026-08-01', fim: '2026-08-30', ativo: true },
-  { nome: 'Out/26 (01-05)',              ini: '2026-10-01', fim: '2026-10-05', ativo: true },
-  { nome: 'Ref Out (03-07/09)',          ini: '2026-09-03', fim: '2026-09-07', ativo: true },
-  { nome: 'Ref Out (24-28/09)',          ini: '2026-09-24', fim: '2026-09-28', ativo: true }
+  { nome: 'Out/26 (01-04)',              ini: '2026-10-01', fim: '2026-10-04', ativo: true },
+  { nome: 'Ref Out (03-06/09)',          ini: '2026-09-03', fim: '2026-09-06', ativo: true },
+  { nome: 'Ref Out (24-27/09)',          ini: '2026-09-24', fim: '2026-09-27', ativo: true }
 ];
 
 const EVENTOS_FUNIL = ['session_start', 'view_item', 'add_to_cart', 'begin_checkout', 'add_shipping_info', 'add_payment_info', 'purchase'];
