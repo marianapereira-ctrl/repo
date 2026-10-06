@@ -25,6 +25,14 @@ function validarDimensoes() {
  * Grava em GA_Assinatura (substitui só as linhas da bandeira). Use o atalho da bandeira desejada.
  */
 function descobrirAssinatura() { descobrirAssinatura_('Oscar Calçados (web)', PERIODOS_ASSINATURA); }
+/** Mostra o que ainda passa pelo filtro atual da Oscar web (resíduo) em out 01-05, set 08-17 e ago 17-29. */
+function descobrirResiduoOscarWeb() {
+  descobrirAssinatura_('Oscar Calçados (web)', [
+    { nome: 'Ago 17-29 (resíduo)', ini: '2026-08-17', fim: '2026-08-29' },
+    { nome: 'Set 08-17 (resíduo)', ini: '2026-09-08', fim: '2026-09-17' },
+    { nome: 'Out 01-05 (resíduo)', ini: '2026-10-01', fim: '2026-10-05' }
+  ], true);
+}
 function descobrirAssinaturaEsportes() {
   descobrirAssinatura_('Paquetá Esportes (web)', [
     { nome: 'Ago/26 (01-30)', ini: '2026-08-01', fim: '2026-08-30' },
@@ -33,7 +41,7 @@ function descobrirAssinaturaEsportes() {
   ]);
 }
 
-function descobrirAssinatura_(nomeBandeira, periodos) {
+function descobrirAssinatura_(nomeBandeira, periodos, aplicarFiltro) {
   const b = BANDEIRAS.find(x => x.nome === nomeBandeira);
   const prop = 'properties/' + b.propertyId;
   const dims = ['browserVersion', 'screenResolution', 'operatingSystem', 'country', 'sessionSourceMedium'];
@@ -41,6 +49,7 @@ function descobrirAssinatura_(nomeBandeira, periodos) {
     { filter: { fieldName: 'deviceCategory', stringFilter: { matchType: 'EXACT', value: 'desktop' } } },
     { filter: { fieldName: 'sessionSourceMedium', inListFilter: { values: ['(direct) / (none)', '(not set)'] } } }
   ] } };
+  const filtroFinal = aplicarFiltro ? montarFiltro_(b, filtro) : filtro;
   const cab = ['Bandeira', 'Periodo', 'Versao navegador', 'Resolucao', 'Sistema', 'Pais', 'Origem/Midia', 'Sessoes', 'Transacoes', 'Receita'];
   const linhas = [];
   periodos.forEach(p => {
@@ -48,7 +57,7 @@ function descobrirAssinatura_(nomeBandeira, periodos) {
       dateRanges: [{ startDate: p.ini, endDate: p.fim }],
       dimensions: dims.map(d => ({ name: d })),
       metrics: ['sessions', 'transactions', 'purchaseRevenue'].map(m => ({ name: m })),
-      dimensionFilter: filtro,
+      dimensionFilter: filtroFinal,
       orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
       limit: '40'
     }, prop));
