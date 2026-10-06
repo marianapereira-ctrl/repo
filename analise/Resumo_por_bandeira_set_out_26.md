@@ -117,16 +117,17 @@ _App: sessões do mês completo; CVR e TKM de 01 a 24/09 contra 01 a 24/08 (a ve
 
 ### 3. Tendência de outubro (01-05) vs referências
 
-_Receita, CVR e TKM do app não são comparáveis em outubro (compra duplicada); a receita vem do faturado e a conversão é lida em compradores únicos por sessão (tabela abaixo)._
+_App: receita e CVR do GA4 não são comparáveis em outubro (compra duplicada); a receita vem do faturado, a conversão é lida em compradores únicos por sessão e o TKM em receita por transação (tabela abaixo)._
 
 | App (Android + iOS) | 03-07/09 | 24-28/09 | 01-05/10 | Out vs 24-28/09 | Out vs 03-07/09 |
 |---|---|---|---|---|---|
 | Sessões | 11.802 | 10.986 | 11.846 | +7,8% | +0,4% |
 | Compradores únicos | 120 | 127 | 102 | -19,7% | -15,0% |
 | Compradores por sessão | 1,02% | 1,16% | 0,86% | -25,5% | -15,3% |
+| TKM (receita por transação) | R$ 349 | R$ 298 | R$ 373 | +25,2% | +7,0% |
 | Transações por comprador (duplicação) | 1,07 | 1,71 | 2,22 | n/a | n/a |
 
-_Duplicação da compra: as transações por comprador passam de 1,06 (01-24/09) para 1,9 (25-30/09) e 2,2 (01-05/10), enquanto os compradores únicos não sobem. Por isso CVR e TKM do GA4 não são comparáveis._
+_Duplicação da compra: as transações por comprador passam de 1,06 (01-24/09) para 1,9 (25-30/09) e 2,2 (01-05/10), enquanto os compradores únicos não sobem. Por isso o CVR do GA4 não é comparável. O TKM é aproximadamente válido, pois a duplicação repete o valor da compra: a receita sem duplicação (receita dividida pelas transações por comprador) fica em R$ 38,1 mil contra R$ 37,9 mil em 24-28/09 (+0,6%) e R$ 41,9 mil em 03-07/09 (-9%), em linha com o faturado (-4% e +14%)._
 
 _Novos x estabelecidos (export Cross Device, 01-05/10 vs 24-28/09, com duplicação nos dois períodos): estabelecidos com compras -31% (103 contra 149), receita -26% e sessões +10%; novos com compras +44% (98 contra 68) e sessões +5%._
 
