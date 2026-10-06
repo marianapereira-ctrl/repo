@@ -61,7 +61,35 @@ const FILTRO_INVALIDO_OSCAR_WEB = {
       { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
       { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1280x1200' }
     ],
-    SIG_CHROME_113_115
+    SIG_CHROME_113_115,
+    // Resíduo (GA_Assinatura 3): Chrome 99 em 1600x1600 (China)
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^99\\.0\\.4844\\.51$' },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1600x1600' }
+    ],
+    // Chrome 109 em 800x600 (Mac e Windows, EUA)
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^109\\..*$' },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '800x600' }
+    ],
+    // Chrome 144.0.0.0 "desktop" com tela de celular (largura 300 a 499)
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^144\\.0\\.0\\.0$' },
+      { campo: 'screenResolution',    tipo: 'FULL_REGEXP', valor: '^[34][0-9][0-9]x[0-9]{3,4}$' }
+    ],
+    // Chrome 121 em Linux 1280x1024
+    [
+      { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
+      { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: ORIGEM_INVALIDA },
+      { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^121\\.0\\.6167\\.184$' },
+      { campo: 'screenResolution',    tipo: 'EXACT',       valor: '1280x1024' }
+    ]
   ]
 };
 
