@@ -26,12 +26,12 @@ function validarDimensoes() {
 function descobrirAssinatura() {
   const b = BANDEIRAS[0];
   const prop = 'properties/' + b.propertyId;
-  const dims = ['browserVersion', 'screenResolution', 'deviceCategory', 'sessionSourceMedium'];
+  const dims = ['browserVersion', 'screenResolution', 'operatingSystem', 'country', 'sessionSourceMedium'];
   const filtro = { andGroup: { expressions: [
     { filter: { fieldName: 'deviceCategory', stringFilter: { matchType: 'EXACT', value: 'desktop' } } },
-    { filter: { fieldName: 'sessionSourceMedium', stringFilter: { matchType: 'EXACT', value: '(direct) / (none)' } } }
+    { filter: { fieldName: 'sessionSourceMedium', inListFilter: { values: ['(direct) / (none)', '(not set)'] } } }
   ] } };
-  const cab = ['Bandeira', 'Periodo', 'Versao navegador', 'Resolucao', 'Device', 'Origem/Midia', 'Sessoes', 'Transacoes', 'Receita'];
+  const cab = ['Bandeira', 'Periodo', 'Versao navegador', 'Resolucao', 'Sistema', 'Pais', 'Origem/Midia', 'Sessoes', 'Transacoes', 'Receita'];
   const linhas = [];
   PERIODOS_ASSINATURA.forEach(p => {
     const resp = comRetry_(() => AnalyticsData.Properties.runReport({
@@ -40,7 +40,7 @@ function descobrirAssinatura() {
       metrics: ['sessions', 'transactions', 'purchaseRevenue'].map(m => ({ name: m })),
       dimensionFilter: filtro,
       orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
-      limit: '60'
+      limit: '40'
     }, prop));
     (resp.rows || []).forEach(r => linhas.push([b.nome, p.nome]
       .concat(r.dimensionValues.map(d => d.value), r.metricValues.map(m => Number(m.value)))));
@@ -50,7 +50,7 @@ function descobrirAssinatura() {
   sh.clear();
   sh.getRange(1, 1, 1, cab.length).setValues([cab]).setFontWeight('bold');
   if (linhas.length) {
-    sh.getRange(2, 1, linhas.length, 6).setNumberFormat('@');
+    sh.getRange(2, 1, linhas.length, 7).setNumberFormat('@');
     sh.getRange(2, 1, linhas.length, cab.length).setValues(linhas);
   }
   sh.setFrozenRows(1);

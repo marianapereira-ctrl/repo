@@ -65,10 +65,12 @@ const OPCOES = {
   tentativas: 3
 };
 
-/** Períodos usados em descobrirAssinatura(): julho (assinatura conhecida) vs setembro. */
+/** Períodos usados em descobrirAssinatura(): julho (assinatura conhecida), Ago 17-29, Set 08-17 e Out 03-05 (picos de desktop). */
 const PERIODOS_ASSINATURA = [
-  { nome: 'Jul/26', ini: '2026-07-01', fim: '2026-07-31' },
-  { nome: 'Set/26 (01-30)', ini: '2026-09-01', fim: '2026-09-30' }
+  { nome: 'Jul/26',            ini: '2026-07-01', fim: '2026-07-31' },
+  { nome: 'Ago 17-29 (pico)',  ini: '2026-08-17', fim: '2026-08-29' },
+  { nome: 'Set 08-17 (pico)',  ini: '2026-09-08', fim: '2026-09-17' },
+  { nome: 'Out 03-05 (pico)',  ini: '2026-10-03', fim: '2026-10-05' }
 ];
 
 // ============================== RÓTULOS E ESQUEMA ==============================
