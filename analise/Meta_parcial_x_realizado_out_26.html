@@ -1,0 +1,120 @@
+<title>Meta Parcial Outubro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap">
+<style>
+:root{--bg:#EEF0F4;--card:#FFFFFF;--ink:#1B2230;--ink2:#47505F;--muted:#7A8394;--line:#E2E6EC;--soft:#F4F6F9;--brand:#B70701;--real:#2F6FED;--meta:#BAC1CD;--pos:#14895A;--neg:#D4453B;--tipbg:#1B2230;--tipfg:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B0E14;--card:#151A23;--ink:#EDF0F5;--ink2:#B7BFCD;--muted:#8892A3;--line:#273041;--soft:#1B2130;--real:#6C9BFF;--meta:#4A5568;--pos:#3DC48C;--neg:#FF6F66;--tipbg:#EDF0F5;--tipfg:#1B2230;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B0E14;--card:#151A23;--ink:#EDF0F5;--ink2:#B7BFCD;--muted:#8892A3;--line:#273041;--soft:#1B2130;--real:#6C9BFF;--meta:#4A5568;--pos:#3DC48C;--neg:#FF6F66;--tipbg:#EDF0F5;--tipfg:#1B2230;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;padding-inline:16px;padding-block:28px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.eyebrow i{width:9px;height:9px;border-radius:50%;background:var(--brand)}
+h1{margin:6px 0 4px;font-size:clamp(26px,4vw,36px);line-height:1.15;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+.sub{margin:0;font-size:15px;color:var(--ink2);font-weight:500;line-height:1.5;max-width:70ch}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.kpi{background:var(--card);border-radius:16px;padding:16px 18px;min-width:0}
+.kpi .l{font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-size:clamp(24px,3vw,32px);font-weight:800;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:13px;font-weight:600;color:var(--ink2);margin-top:2px}
+.neg{color:var(--neg)} .pos{color:var(--pos)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.card{background:var(--card);border-radius:18px;padding:20px 22px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.card.full{grid-column:1/-1}
+.card h2{margin:0;font-size:18px;font-weight:800;line-height:1.3;text-wrap:balance}
+.card p{margin:0;font-size:13.5px;color:var(--ink2);font-weight:500;line-height:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;font-weight:600;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:inherit;fill:var(--ink2)} svg .ti{fill:var(--ink)} svg .mu{fill:var(--muted)} svg .ng{fill:var(--neg)} svg .ps{fill:var(--pos)}
+svg .gl{stroke:var(--line)} svg .zr{stroke:var(--muted)}
+.sm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 22px}
+.sm h3{margin:0 0 4px;font-size:14px;font-weight:800;display:flex;justify-content:space-between;gap:8px}
+.note{font-size:12.5px;color:var(--muted);font-weight:500;line-height:1.5}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+button{font:inherit;font-size:12.5px;font-weight:700;color:var(--ink2);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer}
+#tip{position:fixed;pointer-events:none;background:var(--tipbg);color:var(--tipfg);font-size:12.5px;font-weight:600;padding:7px 10px;border-radius:8px;opacity:0;transition:opacity .1s;max-width:260px;z-index:9;line-height:1.4}
+@media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.grid,.sm{grid-template-columns:1fr}}
+</style>
+<div class="wrap">
+ <div class="top"><div><div class="eyebrow"><i></i>Grupo Oscar · Outubro de 2026</div><h1>Meta parcial x realizado, 01 a 05/10</h1>
+ <p class="sub">Faturado contra a meta diária acumulada de Oscar web, App, Esportes e Calçados. Fonte: planilha de metas. O faturado de outubro ainda está amadurecendo.</p></div><button id="th">Tema</button></div>
+ <div class="kpis" id="kpis"></div>
+ <div class="grid">
+  <div class="card full"><h2 id="t1"></h2><p>Barra: faturado de 01 a 05/10 como % da meta parcial (azul abaixo da meta, verde acima). Marca vertical: 100% da meta.</p><div id="c1"></div></div>
+  <div class="card"><h2>Grupo: acumulado diário contra a meta</h2><p>Faturado acumulado e meta acumulada, em R$ mil.</p><div class="legend"><span><i style="background:var(--real)"></i>Faturado acumulado</span><span><i style="background:var(--meta)"></i>Meta acumulada</span></div><div id="c2"></div></div>
+  <div class="card"><h2>Grupo: faturado por dia contra a meta do dia</h2><p>O faturado de 04/10 (domingo) está muito abaixo da meta e 05/10 compensa; os dois dias somados ficam em 82% da meta.</p><div class="legend"><span><i style="background:var(--real)"></i>Faturado</span><span><i style="background:var(--meta)"></i>Meta do dia</span></div><div id="c3"></div></div>
+  <div class="card"><h2>Gap contra a meta parcial por bandeira</h2><p>Faturado menos meta de 01 a 05/10, em R$ mil.</p><div id="c4"></div></div>
+  <div class="card"><h2>Participação no faturado e na meta do Grupo</h2><p>Quanto cada bandeira representa da meta parcial e do faturado, em %.</p><div class="legend"><span><i style="background:var(--meta)"></i>Meta parcial</span><span><i style="background:var(--real)"></i>Faturado</span></div><div id="c5"></div></div>
+  <div class="card full"><h2>Acumulado por bandeira, faturado x meta</h2><div class="sm" id="c6"></div></div>
+ </div>
+ <div class="note">Meta parcial: soma das metas diárias de 01 a 05/10 (14,8% da meta do mês, R$ 1.462,8 mil no Grupo). Faturado sujeito a maturação: Oscar web equivale a cerca de 33% do captado de 01 a 04/10, contra 57% em setembro. O Grupo não inclui a Diadora.</div>
+</div>
+<div id="tip"></div>
+<script>
+const D={"Oscar Calçados (web)": {"meta": [18255.42, 17553.29, 15622.43, 8484.09, 26622.49], "real": [10682.75, 18668.32, 8286.35, 847.93, 26661.3]}, "Oscar Calçados (app)": {"meta": [10919.02, 10499.06, 9344.16, 5074.55, 15923.57], "real": [4604.69, 7286.66, 6669.01, 1019.23, 15112.01]}, "Paquetá Esportes (web)": {"meta": [11900.25, 11442.55, 10183.87, 5530.57, 17354.53], "real": [10777.73, 13566.77, 6687.57, 856.14, 19676.0]}, "Paquetá Calçados (web)": {"meta": [4563.85, 4388.32, 3905.61, 2121.02, 6655.62], "real": [5918.27, 8788.59, 5068.51, 737.14, 7510.05]}};const N={'Oscar Calçados (web)':'Oscar web','Oscar Calçados (app)':'Oscar App','Paquetá Esportes (web)':'Esportes','Paquetá Calçados (web)':'Calçados'};
+const names=Object.keys(D);const days=['01/10','02/10','03/10','04/10 (dom)','05/10'];
+const sum=a=>a.reduce((x,y)=>x+y,0),nf=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:0}),nf1=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1});
+const k=v=>nf1.format(v/1000),pct=v=>nf.format(v)+'%';
+const G={meta:days.map((_,i)=>sum(names.map(n=>D[n].meta[i]))),real:days.map((_,i)=>sum(names.map(n=>D[n].real[i])))};
+const cum=a=>a.reduce((o,v,i)=>(o.push((o[i-1]||0)+v),o),[]);
+const tip=document.getElementById('tip');
+function bind(el,t){el.addEventListener('mousemove',e=>{tip.textContent=t;tip.style.opacity=1;tip.style.left=Math.min(e.clientX+14,innerWidth-270)+'px';tip.style.top=(e.clientY+14)+'px'});el.addEventListener('mouseleave',()=>tip.style.opacity=0)}
+const NS='http://www.w3.org/2000/svg';
+function S(t,a,p,x){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;p&&p.appendChild(e);return e}
+function mk(id,W,H){const s=S('svg',{viewBox:`0 0 ${W} ${H}`},document.getElementById(id));return s}
+// KPIs
+const tm=sum(G.meta),tr=sum(G.real);
+document.getElementById('kpis').innerHTML=[['Meta parcial','R$ '+k(tm)+' mil','01 a 05/10',''],['Faturado','R$ '+k(tr)+' mil','01 a 05/10',''],['Cumprido',pct(tr/tm*100),'da meta parcial',tr<tm?'neg':'pos'],['Gap','-R$ '+k(tm-tr)+' mil','faturado menos meta','neg']].map(a=>`<div class="kpi"><div class="l">${a[0]}</div><div class="v ${a[3]}">${a[1]}</div><div class="s">${a[2]}</div></div>`).join('');
+document.getElementById('t1').textContent='Grupo cumpriu '+pct(tr/tm*100)+' da meta parcial; só Calçados supera';
+// C1 bullet
+(function(){const rows=names.map(n=>({n:N[n],m:sum(D[n].meta),r:sum(D[n].real)})).concat([{n:'Grupo',m:tm,r:tr}]);
+ const W=1100,rh=62,H=rows.length*rh+34,x0=130,x1=W-190,MX=140;const X=p=>x0+(x1-x0)*p/MX;const svg=mk('c1',W,H);
+ S('text',{x:X(100),y:10,'text-anchor':'middle','font-size':12,'font-weight':700,class:'ti'},svg,'meta 100%');
+ rows.forEach((r,i)=>{const y=22+i*rh,p=r.r/r.m*100,g=r.n==='Grupo';
+  S('text',{x:0,y:y+26,'font-size':16,'font-weight':g?800:700,class:'ti'},svg,r.n);
+  S('rect',{x:x0,y:y+8,width:x1-x0,height:30,rx:8,fill:'var(--soft)'},svg);
+  const b=S('rect',{x:x0,y:y+8,width:Math.max(3,X(p)-x0),height:30,rx:8,fill:p>=100?'var(--pos)':'var(--real)'},svg);
+  S('text',{x:Math.min(X(p),X(MX))-10,y:y+28,'text-anchor':'end','font-size':13,'font-weight':800,fill:'#fff',style:'fill:#fff'},svg,'R$ '+k(r.r)+' mil');
+  S('line',{x1:X(100),x2:X(100),y1:y+2,y2:y+44,stroke:'var(--ink)','stroke-width':2.5},svg);
+  S('text',{x:x1+16,y:y+24,'font-size':20,'font-weight':800,class:p>=100?'ps':'ng'},svg,pct(p));
+  S('text',{x:x1+16,y:y+42,'font-size':12.5,'font-weight':600,class:'mu'},svg,'meta parcial R$ '+k(r.m)+' mil');
+  bind(b,`${r.n}: faturado R$ ${k(r.r)} mil, meta parcial R$ ${k(r.m)} mil (${nf1.format(p)}%)`)})})();
+// C2 cumulative line
+(function(){const W=520,H=300,m={l:44,r:70,t:14,b:30};const svg=mk('c2',W,H);const cm=cum(G.meta),cr=cum(G.real);const mx=Math.ceil(Math.max(...cm,...cr)/50000)*50000;
+ const X=i=>m.l+i*(W-m.l-m.r)/4,Y=v=>H-m.b-v/mx*(H-m.t-m.b);
+ for(let v=0;v<=mx;v+=50000){S('line',{class:'gl',x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v)},svg);S('text',{x:m.l-8,y:Y(v)+4,'text-anchor':'end','font-size':11.5,class:'mu'},svg,k(v))}
+ days.forEach((d,i)=>S('text',{x:X(i),y:H-8,'text-anchor':'middle','font-size':11.5,class:'mu'},svg,d.slice(0,5)));
+ [[cm,'var(--meta)','Meta'],[cr,'var(--real)','Faturado']].forEach(([s,c,l])=>{S('polyline',{points:s.map((v,i)=>X(i)+','+Y(v)).join(' '),fill:'none',stroke:c,'stroke-width':3,'stroke-linejoin':'round','stroke-linecap':'round'},svg);
+  s.forEach((v,i)=>{const d=S('circle',{cx:X(i),cy:Y(v),r:5,fill:c,stroke:'var(--card)','stroke-width':2},svg);bind(d,`${l} acumulada até ${days[i].slice(0,5)}: R$ ${k(v)} mil`)})});
+ S('text',{x:X(4)+10,y:Y(cm[4])+4,'font-size':12.5,'font-weight':700,class:'mu'},svg,k(cm[4]));
+ S('text',{x:X(4)+10,y:Y(cr[4])+4,'font-size':12.5,'font-weight':800,class:'ti'},svg,k(cr[4]));
+})();
+// C3 daily grouped
+(function(){const W=520,H=300,m={l:44,r:10,t:14,b:30};const svg=mk('c3',W,H);const mx=Math.ceil(Math.max(...G.meta,...G.real)/20000)*20000;const Y=v=>H-m.b-v/mx*(H-m.t-m.b);const band=(W-m.l-m.r)/5;
+ for(let v=0;v<=mx;v+=20000){S('line',{class:'gl',x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v)},svg);S('text',{x:m.l-8,y:Y(v)+4,'text-anchor':'end','font-size':11.5,class:'mu'},svg,k(v))}
+ days.forEach((d,i)=>{const cx=m.l+band*(i+.5),bw=band*.3;[[G.meta[i],'var(--meta)',-bw-1,'Meta'],[G.real[i],'var(--real)',1,'Faturado']].forEach(([v,c,dx,l])=>{const r=S('rect',{x:cx+dx,y:Y(v),width:bw,height:Y(0)-Y(v),rx:4,fill:c},svg);bind(r,`${d.slice(0,5)} · ${l}: R$ ${k(v)} mil`);
+   S('text',{x:cx+dx+bw/2,y:Y(v)-6,'text-anchor':'middle','font-size':11.5,'font-weight':700,class:'ti'},svg,k(v))});
+  S('text',{x:cx,y:H-8,'text-anchor':'middle','font-size':11.5,class:'mu'},svg,d)});
+})();
+// C4 diverging gap
+(function(){const rows=names.map(n=>({n:N[n],v:sum(D[n].real)-sum(D[n].meta)})).concat([{n:'Grupo',v:tr-tm}]);const W=520,rh=48,H=rows.length*rh+10;const svg=mk('c4',W,H);const mx=Math.max(...rows.map(r=>Math.abs(r.v)));const x0=100,zero=x0+(W-x0-70)*0.62,sc=(W-x0-70)*0.58/mx;
+ S('line',{class:'zr',x1:zero,x2:zero,y1:0,y2:H},svg);
+ rows.forEach((r,i)=>{const y=i*rh+8,w=Math.abs(r.v)*sc;S('text',{x:0,y:y+22,'font-size':14,'font-weight':r.n==='Grupo'?800:700,class:'ti'},svg,r.n);
+  const b=S('rect',{x:r.v>=0?zero:zero-w,y:y+6,width:Math.max(2,w),height:22,rx:5,fill:r.v>=0?'var(--pos)':'var(--neg)'},svg);
+  S('text',{x:r.v>=0?zero+w+8:zero-w-8,y:y+22,'text-anchor':r.v>=0?'start':'end','font-size':13,'font-weight':800,class:r.v>=0?'ps':'ng'},svg,(r.v>=0?'+':'-')+k(Math.abs(r.v)));bind(b,`${r.n}: ${r.v>=0?'+':'-'}R$ ${k(Math.abs(r.v))} mil contra a meta parcial`)})})();
+// C5 shares
+(function(){const W=520,rh=48,H=4*rh+10;const svg=mk('c5',W,H);const x0=100,sc=(W-x0-60)/45;
+ names.forEach((n,i)=>{const y=i*rh+4;const sm=sum(D[n].meta)/tm*100,sr=sum(D[n].real)/tr*100;S('text',{x:0,y:y+24,'font-size':14,'font-weight':700,class:'ti'},svg,N[n]);
+  [[sm,'var(--meta)',0,'Meta'],[sr,'var(--real)',20,'Faturado']].forEach(([v,c,dy,l])=>{const b=S('rect',{x:x0,y:y+dy+2,width:v*sc,height:16,rx:4,fill:c},svg);S('text',{x:x0+v*sc+6,y:y+dy+15,'font-size':12,'font-weight':700,class:'ti'},svg,nf1.format(v)+'%');bind(b,`${N[n]} · ${l}: ${nf1.format(v)}% do Grupo`)})})})();
+// C6 small multiples
+(function(){const host=document.getElementById('c6');names.forEach(n=>{const d=document.createElement('div');const cm=cum(D[n].meta),cr=cum(D[n].real);const p=cr[4]/cm[4]*100;
+ d.innerHTML=`<h3><span>${N[n]}</span><span class="${p>=100?'pos':'neg'}">${pct(p)} da meta</span></h3><div></div>`;host.appendChild(d);
+ const W=500,H=190,m={l:40,r:44,t:10,b:26};const svg=S('svg',{viewBox:`0 0 ${W} ${H}`},d.lastChild);const mx=Math.ceil(Math.max(...cm,...cr)/20000)*20000;const X=i=>m.l+i*(W-m.l-m.r)/4,Y=v=>H-m.b-v/mx*(H-m.t-m.b);
+ [0,mx/2,mx].forEach(v=>{S('line',{class:'gl',x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v)},svg);S('text',{x:m.l-6,y:Y(v)+4,'text-anchor':'end','font-size':11,class:'mu'},svg,k(v))});
+ days.forEach((dd,i)=>S('text',{x:X(i),y:H-6,'text-anchor':'middle','font-size':11,class:'mu'},svg,dd.slice(0,2)));
+ const area=S('path',{d:'M'+cr.map((v,i)=>X(i)+','+Y(v)).join('L')+`L${X(4)},${Y(0)}L${X(0)},${Y(0)}Z`,fill:'var(--real)',opacity:.12},svg);
+ [[cm,'var(--meta)','Meta'],[cr,'var(--real)','Faturado']].forEach(([s,c,l])=>{S('polyline',{points:s.map((v,i)=>X(i)+','+Y(v)).join(' '),fill:'none',stroke:c,'stroke-width':2.8,'stroke-linejoin':'round'},svg);s.forEach((v,i)=>{const e=S('circle',{cx:X(i),cy:Y(v),r:4,fill:c,stroke:'var(--card)','stroke-width':1.5},svg);bind(e,`${N[n]} · ${l} acumulada até ${dd(i)}: R$ ${k(v)} mil`)})});
+ function dd(i){return days[i].slice(0,5)}
+ S('text',{x:X(4)+9,y:Y(cm[4])+4,'font-size':11.5,'font-weight':700,class:'mu'},svg,k(cm[4]));S('text',{x:X(4)+9,y:Y(cr[4])+4,'font-size':11.5,'font-weight':800,class:'ti'},svg,k(cr[4]))})})();
+document.getElementById('th').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark'};
+</script>
