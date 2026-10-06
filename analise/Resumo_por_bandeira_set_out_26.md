@@ -117,7 +117,18 @@ _App: sessões do mês completo; CVR e TKM de 01 a 24/09 contra 01 a 24/08 (a ve
 
 ### 3. Tendência de outubro (01-05) vs referências
 
-_Receita, CVR e TKM do app não são comparáveis em outubro (compra duplicada); a leitura de receita vem do faturado._
+_Receita, CVR e TKM do app não são comparáveis em outubro (compra duplicada); a receita vem do faturado e a conversão é lida em compradores únicos por sessão (tabela abaixo)._
+
+| App (Android + iOS) | 03-07/09 | 24-28/09 | 01-05/10 | Out vs 24-28/09 | Out vs 03-07/09 |
+|---|---|---|---|---|---|
+| Sessões | 11.802 | 10.986 | 11.846 | +7,8% | +0,4% |
+| Compradores únicos | 120 | 127 | 102 | -19,7% | -15,0% |
+| Compradores por sessão | 1,02% | 1,16% | 0,86% | -25,5% | -15,3% |
+| Transações por comprador (duplicação) | 1,07 | 1,71 | 2,22 | n/a | n/a |
+
+_Duplicação da compra: as transações por comprador passam de 1,06 (01-24/09) para 1,9 (25-30/09) e 2,2 (01-05/10), enquanto os compradores únicos não sobem. Por isso CVR e TKM do GA4 não são comparáveis._
+
+_Novos x estabelecidos (export Cross Device, 01-05/10 vs 24-28/09, com duplicação nos dois períodos): estabelecidos com compras -31% (103 contra 149), receita -26% e sessões +10%; novos com compras +44% (98 contra 68) e sessões +5%._
 
 | Recorte | Sessões Out 01-05 | Δ vs 03-07/09 | Δ vs 24-28/09 |
 |---|---|---|---|
@@ -375,7 +386,7 @@ Efeitos em R$ de faturado da piora de setembro sobre agosto; o gap total inclui 
 
 - **Grupo:** conversão (-R$ 122.074) e volume (-R$ 129.250) pesam de forma parecida; o ticket compensa em +R$ 35.720. A razão entre faturado e captado, fora do alcance do GA4, subtrai -R$ 108.340.
 - **Oscar web:** CVR, concentrado no mobile (0,77% para 0,57%).
-- **App:** CVR e volume (sessões -8,8%; CVR de 1,27% para 1,13%).
+- **App:** CVR e volume (sessões -8,8%; CVR de 1,27% para 1,13%). Em outubro (01-05), a conversão em compradores únicos por sessão cai para 0,86% (-26% contra 24-28/09), com compras de clientes estabelecidos -31% e de novos +44%.
 - **Esportes:** volume (sessões -12,9%).
 - **Calçados:** TKM (R$ 288 para R$ 267).
 
@@ -401,7 +412,8 @@ Efeitos em R$ de faturado da piora de setembro sobre agosto; o gap total inclui 
 2. **Topo do funil no mobile e no app:** devemos levar mais sessões ao produto (Esportes mobile -4,0 p.p.; App iOS -5,0 p.p. e Android -2,1 p.p.; Oscar web mobile -3,9 p.p.), com páginas iniciais e listagens orientadas a produto.
 3. **Checkout do desktop do Esportes:** devemos revisar a passagem de checkout para pagamento (46,3% para 36,8%) e a conclusão do checkout (35,6% para 27,5%). Se o desktop voltasse à conclusão de agosto, a receita captada seria cerca de R$ 19 mil maior no mês.
 4. **Calçados:** devemos melhorar a passagem de produto para carrinho nos dois devices (-0,9 p.p.), o carrinho para checkout no desktop (69,8% para 64,0%) e o ticket do desktop (R$ 299 para R$ 235).
-5. **Tags e eventos:** devemos revisar com a Tec4U e a Deco a coleta de eventos de outubro (visualização de página, início de checkout e informação de entrega), a duplicação de compra no app e o disparo duplo do evento de compra no Esportes, que limitam a leitura de conversão.
+5. **App:** devemos reativar os clientes estabelecidos (CRM e push, com push 42% abaixo em sessões) e atuar em produto → carrinho e checkout → pagamento nos dois sistemas, pois os compradores únicos por sessão caem 26% em outubro contra 24-28/09.
+6. **Tags e eventos:** devemos revisar com a Tec4U e a Deco a coleta de eventos de outubro (visualização de página, início de checkout e informação de entrega), a duplicação de compra no app e o disparo duplo do evento de compra no Esportes, que limitam a leitura de conversão.
 
 ### Observações de leitura
 - O faturado de outubro (01 a 05/10) ainda está amadurecendo; na Oscar web equivale a cerca de 33% do captado nos dias 01 a 04, contra 57% em setembro.
