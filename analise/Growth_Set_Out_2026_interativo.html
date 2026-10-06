@@ -4,19 +4,19 @@
 /* Conceito: palco 16:9 escalável, coluna de leitura à esquerda e gráfico limpo à direita; um destaque por slide. */
 :root{
   --bg:#E9ECF1; --stage:#FFFFFF; --ink:#1B2230; --ink2:#47505F; --muted:#7A8394; --line:#E2E6EC; --soft:#F4F6F9;
-  --brand:#B70701; --c-all:#3A4354; --c-a:#2F6FED; --c-b:#F08A24; --ref:#BAC1CD; --meta:#CBD1DB;
+  --brand:#B70701; --cro-bg:#FDF1F0; --cro-tx:#B70701; --c-all:#3A4354; --c-a:#2F6FED; --c-b:#F08A24; --ref:#BAC1CD; --meta:#CBD1DB;
   --pos:#14895A; --neg:#D4453B; --tipbg:#1B2230; --tipfg:#FFFFFF; --shadow:0 18px 50px rgba(20,30,50,.14);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#0B0E14; --stage:#151A23; --ink:#EDF0F5; --ink2:#B7BFCD; --muted:#8892A3; --line:#273041; --soft:#1B2130;
-    --c-all:#C9D1DF; --c-a:#6C9BFF; --c-b:#FFA94D; --ref:#4A5568; --meta:#3A4456;
+    --cro-bg:#2B1A1D; --cro-tx:#FF8A82; --c-all:#C9D1DF; --c-a:#6C9BFF; --c-b:#FFA94D; --ref:#4A5568; --meta:#3A4456;
     --pos:#3DC48C; --neg:#FF6F66; --tipbg:#EDF0F5; --tipfg:#1B2230; --shadow:0 18px 50px rgba(0,0,0,.5); color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0B0E14; --stage:#151A23; --ink:#EDF0F5; --ink2:#B7BFCD; --muted:#8892A3; --line:#273041; --soft:#1B2130;
-  --c-all:#C9D1DF; --c-a:#6C9BFF; --c-b:#FFA94D; --ref:#4A5568; --meta:#3A4456;
+  --cro-bg:#2B1A1D; --cro-tx:#FF8A82; --c-all:#C9D1DF; --c-a:#6C9BFF; --c-b:#FFA94D; --ref:#4A5568; --meta:#3A4456;
   --pos:#3DC48C; --neg:#FF6F66; --tipbg:#EDF0F5; --tipfg:#1B2230; --shadow:0 18px 50px rgba(0,0,0,.5); color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -56,11 +56,20 @@ svg .zero{stroke:var(--muted);stroke-width:1.2}
 .bar{transition:opacity .15s}
 svg:hover .bar{opacity:.6} svg .bar:hover{opacity:1}
 /* resumo */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px;height:calc(100% - 118px)}
-.card{background:var(--soft);border-radius:16px;padding:20px 24px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.card .k{font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-.card p{margin:0;font-size:16px;line-height:1.5;font-weight:500;color:var(--ink)}
-.card .mini{margin-top:auto;padding-top:6px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto 1fr;gap:16px;margin-top:16px;height:calc(100% - 100px)}
+.card{background:var(--soft);border-radius:16px;padding:16px 20px;display:flex;flex-direction:column;gap:8px;min-width:0;overflow:hidden}
+.card .k{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.card p{margin:0;font-size:14px;line-height:1.45;font-weight:500;color:var(--ink)}
+.card .mini{margin-top:auto;padding-top:4px}
+.cro{grid-column:1/-1;background:var(--cro-bg);border:2px solid var(--brand);border-radius:16px;padding:16px 22px;display:flex;flex-direction:column;gap:12px;min-height:0;overflow:hidden}
+.cro .k{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--cro-tx)}
+.cro .k span{font-weight:600;letter-spacing:0;text-transform:none;color:var(--ink2);font-size:14px}
+.cro ul{list-style:none;margin:0;padding:0;display:grid;gap:20px 26px;flex:1;align-content:center}
+.cro li{display:flex;gap:12px;align-items:flex-start;min-width:0}
+.cro .ic{flex:none;width:44px;height:44px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center}
+.cro .ic svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cro b{display:block;font-size:17px;font-weight:800;color:var(--ink);line-height:1.3}
+.cro li div span{display:block;font-size:14.5px;font-weight:500;color:var(--ink2);line-height:1.4;margin-top:2px}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:12.5px;font-weight:700;background:var(--stage);color:var(--ink2);border:1px solid var(--line)}
 /* capa */
 .cover{background:var(--brand);color:#fff;padding:0}
@@ -246,23 +255,58 @@ function levStack(host,lev,dec){ // mini barras de alavancas
     S('text',{x:v>=0?zero+w+6:zero-w-6,y:cy+4,'text-anchor':v>=0?'start':'end','font-size':12,'font-weight':700,class:v>=0?'t-pos':'t-neg'},svg,(v>0?'+':'-')+nf.format(Math.abs(v)))})
 }
 function miniBars(host,rows){
-  const W=420,rh=28;const svg=S('svg',{viewBox:`0 0 ${W} ${rows.length*rh+4}`,style:'width:100%;height:auto;display:block'},host);
-  const mx=Math.max(...rows.map(i=>Math.abs(i.v)),1);const x0=190,half=(W-x0-70)/2,zero=x0+40+half,sc=half/mx;
+  const W=360,rh=27;const svg=S('svg',{viewBox:`0 0 ${W} ${rows.length*rh+4}`,style:'width:100%;height:auto;display:block'},host);
+  const mx=Math.max(...rows.map(i=>Math.abs(i.v)),1);const x0=150,half=(W-x0-96)/2,zero=x0+44+half,sc=half/mx;
   S('line',{class:'zero',x1:zero,x2:zero,y1:0,y2:rows.length*rh},svg);
-  rows.forEach((r,i)=>{const cy=i*rh+14;const nm=r.n.length>29?r.n.slice(0,28)+'…':r.n;S('text',{x:0,y:cy+4,'font-size':12,'font-weight':600,class:'t-ink'},svg,nm);
+  rows.forEach((r,i)=>{const cy=i*rh+14;const nm=r.n.length>24?r.n.slice(0,23)+'…':r.n;S('text',{x:0,y:cy+4,'font-size':11.5,'font-weight':600,class:'t-ink'},svg,nm);
     const w=Math.max(2,Math.abs(r.v)*sc);S('rect',{x:r.v>=0?zero:zero-w,y:cy-7,width:w,height:14,rx:3,fill:r.v>=0?'var(--pos)':'var(--neg)'},svg);
-    S('text',{x:r.v>=0?zero+w+6:zero-w-6,y:cy+4,'text-anchor':r.v>=0?'start':'end','font-size':12,'font-weight':700,class:r.v>=0?'t-pos':'t-neg'},svg,r.t)})
+    S('text',{x:r.v>=0?zero+w+6:zero-w-6,y:cy+4,'text-anchor':r.v>=0?'start':'end','font-size':11.5,'font-weight':700,class:r.v>=0?'t-pos':'t-neg'},svg,r.t)})
 }
 function critChips(host,fun){
   fun.series.forEach(s=>{let k=0;s.vals.forEach((v,i)=>{if(v<s.vals[k])k=i});const v=s.vals[k];
     const c=H('span','chip',`<i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLOR[s.name]||'var(--c-all)'}"></i>${s.name}: ${fun.cats[k]} ${fmtPP(v)}`,host);c.style.marginRight='8px';c.style.marginBottom='6px'})
 }
+const IC={
+ cart:'<path d="M3 4h2l2.4 11h10.2L20 8H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/>',
+ pay:'<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10.5h18M7 15h4"/>',
+ traffic:'<path d="M4 18 10 11l4 4 6-8"/><path d="M15 7h5v5"/>',
+ target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/>',
+ bug:'<path d="M9 7.5a3 3 0 0 1 6 0M7 12h10M12 12v8M7.5 9.5h9v5a4.5 4.5 0 0 1-9 0zM4 8l3 2M20 8l-3 2M4 17l3-2M20 17l-3-2"/>',
+ phone:'<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+ desk:'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/>',
+ tag:'<path d="M3 12V4h8l9 9-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/>',
+ ads:'<path d="M3 10v4h3l7 4V6L6 10zM17 9a4 4 0 0 1 0 6"/>',
+ bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15zM10 20.5h4"/>',
+ check:'<circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/>'};
+const INIT=[
+ {set:[['cart','Produto e carrinho no mobile','Priorizar a página de produto e o carrinho; com o CVR de agosto no mobile (0,77%), a receita captada seria cerca de R$ 130 mil maior no mês.']],
+  out:[['cart','Levar mais sessões ao produto','Sessão → produto cai de 67,6% para 60,0% (-7,6 p.p.).'],
+       ['ads','Retomar google / cpc e Meta Ads','Google / cpc x mobile (-R$ 6,7 mil) e x desktop (-R$ 6,2 mil) puxam a queda de receita.'],
+       ['check','Validar o checkout com Tec4U e Deco','Revisar o deploy de 30/09 a 01/10, que coincide com a mudança na coleta de eventos.'],
+       ['bug','Pedir à Nemu um filtro de bots','Sem o filtro, o funil da Nemu (280 no checkout) não fecha com os 411 pedidos.']]},
+ {set:[['cart','Produto e carrinho, com foco no iOS','Levar mais sessões ao produto e ao carrinho, onde o iOS concentra a perda de receita.'],
+       ['bug','Corrigir a compra duplicada','Ajustar o evento da versão de 25/09 para voltar a medir a conversão com segurança.']],
+  out:[['cart','Produto → carrinho e checkout → pagamento','Atuar nos dois sistemas (produto → carrinho -3,4 p.p.; checkout → pagamento -4,5 p.p.).'],
+       ['phone','Sessão → produto no iOS','Queda de 5,0 p.p. na passagem da sessão para o produto.'],
+       ['bell','Retomar o push','Push (soma das grafias) com 678 sessões contra 1.179 em 24-28/09 (-42%).'],
+       ['bug','Corrigir a compra duplicada','Sem a correção, CVR e TKM de outubro não são comparáveis.']]},
+ {set:[['desk','Checkout do desktop','Revisar o fluxo; com a conclusão de checkout de agosto, a receita captada seria cerca de R$ 19 mil maior no mês.'],
+       ['phone','Sessões ao produto no mobile','Levar mais tráfego qualificado à página de produto.']],
+  out:[['pay','Checkout do desktop','Carrinho → checkout (-8,2 p.p.) e pagamento → compra (-12,6 p.p.).'],
+       ['cart','Página de produto','Produto → carrinho cai -1,5 p.p. no geral e -1,6 p.p. no mobile.'],
+       ['traffic','Recuperar o orgânico no mobile','Google / organic x mobile perde R$ 2,1 mil de receita captada.']]},
+ {set:[['cart','Produto → carrinho','Melhorar a passagem nos dois devices (-0,9 p.p.).'],
+       ['desk','Carrinho do desktop','Carrinho → checkout cai 5,8 p.p. no desktop.'],
+       ['tag','Ticket do desktop','Voltar ao ticket de agosto no desktop adicionaria cerca de R$ 7 mil de receita captada no mês.']],
+  out:[['ads','Sustentar o google / cpc','Maior alta de receita captada do mês (+R$ 3,1 mil no mobile e +R$ 1,8 mil no desktop).'],
+       ['cart','Acompanhar produto → carrinho','Taxa de 8,1% em outubro.'],
+       ['pay','Acompanhar pagamento → compra no desktop','Etapa com maior oscilação no desktop.']]}];
 function resumoSlide(s,name,mes,item,month,withLev){
   const r=item[month].resumo,M=item[month];
-  const titles=['Principal motivo da queda','Origem / mídia x device','Etapas críticas do funil','Onde o CRO deve atuar'];
+  const titles=['Principal motivo da queda','Origem / mídia x device','Etapas críticas do funil'];
   s.innerHTML=`${eyebrow(name,mes)}<h1>Resumo de ${month==='set'?'setembro':'outubro'}: ${item.short}</h1><div class="cards"></div>`;
   const cards=$('.cards',s);
-  r.forEach((it,i)=>{const c=H('div','card','',cards);H('div','k',titles[i],c);H('p','',it[1].replace(/^[a-zà-ú]/,m=>m.toUpperCase()),c);
+  r.slice(0,3).forEach((it,i)=>{const c=H('div','card','',cards);H('div','k',titles[i],c);H('p','',it[1].replace(/^[a-zà-ú]/,m=>m.toUpperCase()),c);
     const mini=H('div','mini','',c);
     if(i===0){
       if(month==='set'){const L=M.gap.lev;miniBars(mini,[['Sessões',L.sess],['CVR',L.cvr],['TKM',L.tkm],['Faturado/captado',L.razao]].map(a=>({n:a[0],v:a[1],t:(a[1]>0?'+':'-')+nf.format(Math.abs(a[1]))})))}
@@ -271,6 +315,11 @@ function resumoSlide(s,name,mes,item,month,withLev){
     if(i===1){const rows=M.origem.slice(0,3);miniBars(mini,rows.map(o=>({n:o.label+' · '+o.dev,v:o.v,t:(month==='out'&&item.app)?(o.v>0?'+':'-')+nf.format(Math.abs(o.v)):(o.v>0?'+':'-')+nf1.format(Math.abs(o.v))})))}
     if(i===2){const fun=M.funil||M.funilEst;if(fun)critChips(mini,fun)}
   });
+  const list=(INIT[DATA.b.indexOf(item)]||{})[month]||[];
+  const cro=H('div','cro','',cards);
+  H('div','k',`Onde o CRO deve atuar <span>Devemos levar estas iniciativas:</span>`,cro);
+  const ul=H('ul','','',cro);ul.style.gridTemplateColumns=`repeat(${list.length>=3&&list.length!==4?3:Math.min(2,list.length)||1},1fr)`;
+  list.forEach(l=>{const li=H('li','',`<div class="ic"><svg viewBox="0 0 24 24">${IC[l[0]]||IC.target}</svg></div><div><b>${l[1]}</b><span>${l[2]}</span></div>`,ul)});
 }
 function build(){
   const g=DATA.grupo;
