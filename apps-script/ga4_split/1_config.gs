@@ -18,13 +18,17 @@
 
 // ============================== CONFIGURAÇÃO ==============================
 
-/** Assinatura de tráfego inválido (Oscar web, julho/2026). Edite as condições se a de setembro for diferente. */
+/**
+ * Assinatura de tráfego inválido (Oscar web): desktop + direto/não definido + versão do navegador + resolução.
+ * Julho: 142.0.0.0 e 133.0.6943.141. Setembro (GA_Assinatura): somam-se 146.0.0.0 e 151.0.7922.173, todas com zero transações.
+ * Confirmar as versões de ago 17-29 e out 03-05 com descobrirAssinatura() antes de fechar a análise.
+ */
 const FILTRO_INVALIDO_OSCAR_WEB = {
   ativo: true,
   condicoes: [
     { campo: 'deviceCategory',      tipo: 'EXACT',       valor: 'desktop' },
-    { campo: 'sessionSourceMedium', tipo: 'EXACT',       valor: '(direct) / (none)' },
-    { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^(142\\.0\\.0\\.0|133\\.0\\.6943\\.141)$' },
+    { campo: 'sessionSourceMedium', tipo: 'FULL_REGEXP', valor: '^(\\(direct\\) / \\(none\\)|\\(not set\\))$' },
+    { campo: 'browserVersion',      tipo: 'FULL_REGEXP', valor: '^(142\\.0\\.0\\.0|146\\.0\\.0\\.0|133\\.0\\.6943\\.141|151\\.0\\.7922\\.173)$' },
     { campo: 'screenResolution',    tipo: 'FULL_REGEXP', valor: '^(1600x1600|1920x1080)$' }
   ]
 };
